@@ -94,7 +94,7 @@ static int validateXml(xmlDocPtr xmlDocument) {
     return 0;
 }
 
-static int parse_create_table(xmlNodePtr rootNode, struct request *request) {
+static int parseCreateTable(xmlNodePtr rootNode, struct request *request) {
     request->type = CREATE_TABLE;
     xmlNodePtr tableName = getChildByName(rootNode, "tableName");
     if (tableName == NULL) {
@@ -149,7 +149,7 @@ static void *parseValue(xmlNodePtr data, enum DataType dataType) {
     }
 }
 
-static int parse_insert(xmlNodePtr rootNode, struct request *request) {
+static int parseInsert(xmlNodePtr rootNode, struct request *request) {
     request->type = INSERT;
     xmlNodePtr tableName = getChildByName(rootNode, "tableName");
     if (tableName == NULL) {
@@ -189,7 +189,7 @@ static int parse_insert(xmlNodePtr rootNode, struct request *request) {
     return 0;
 }
 
-static int parse_delete_table(xmlNodePtr rootNode, struct request *request) {
+static int parseDeleteTable(xmlNodePtr rootNode, struct request *request) {
     request->type = DROP_TABLE;
     xmlNodePtr tableName = getChildByName(rootNode, "tableName");
     if (tableName == NULL) {
@@ -213,7 +213,7 @@ static enum DataType dataTypeFromStr(char *str) {
     }
 }
 
-static struct Operand *parse_operand(xmlNodePtr node) {
+static struct Operand *parseOperand(xmlNodePtr node) {
     struct Operand *operand = malloc(sizeof(struct Operand));
     xmlNodePtr isColumnName = getChildByName(node, "isColumnName");
     xmlNodePtr value = getChildByName(node, "value");
@@ -245,11 +245,8 @@ static enum Operator parseOperator(xmlNodePtr node) {
 }
 
 
-static int parse_select(xmlNodePtr rootNode, struct request *request) {
+static int parseSelect(xmlNodePtr rootNode, struct request *request) {
     request->type = SELECT;
-    xmlNodePtr unreadData = getChildByName(rootNode, "unreadData");
-    xmlNodePtr blockPtr = getChildByName(rootNode, "blockPtr");
-
 
     xmlNodePtr tableName = getChildByName(rootNode, "tableName");
     if (tableName == NULL) {
@@ -272,8 +269,8 @@ static int parse_select(xmlNodePtr rootNode, struct request *request) {
         xmlNodePtr right = getChildByName(condition, "rightOp");
         xmlNodePtr op = getChildByName(condition, "operator");
 
-        struct Operand *leftOp = parse_operand(left);
-        struct Operand *rightOp = parse_operand(right);
+        struct Operand *leftOp = parseOperand(left);
+        struct Operand *rightOp = parseOperand(right);
         enum Operator anOperator = parseOperator(op);
         request->selectRequest.conditions[i] = (struct Condition) {
                 .left = *leftOp,
@@ -285,7 +282,7 @@ static int parse_select(xmlNodePtr rootNode, struct request *request) {
     return 0;
 }
 
-static int parse_delete(xmlNodePtr rootNode, struct request *request) {
+static int parseDelete(xmlNodePtr rootNode, struct request *request) {
     request->type = DELETE;
     xmlNodePtr tableName = getChildByName(rootNode, "tableName");
     if (tableName == NULL) {
@@ -308,8 +305,8 @@ static int parse_delete(xmlNodePtr rootNode, struct request *request) {
         xmlNodePtr right = getChildByName(condition, "rightOp");
         xmlNodePtr op = getChildByName(condition, "operator");
 
-        struct Operand *leftOp = parse_operand(left);
-        struct Operand *rightOp = parse_operand(right);
+        struct Operand *leftOp = parseOperand(left);
+        struct Operand *rightOp = parseOperand(right);
         enum Operator anOperator = parseOperator(op);
         request->deleteRequest.conditions[i] = (struct Condition) {
                 .left = *leftOp,
@@ -321,7 +318,7 @@ static int parse_delete(xmlNodePtr rootNode, struct request *request) {
     return 0;
 }
 
-static int parse_update(xmlNodePtr rootNode, struct request *request) {
+static int parseUpdate(xmlNodePtr rootNode, struct request *request) {
     request->type = UPDATE;
     xmlNodePtr tableName = getChildByName(rootNode, "tableName");
     if (tableName == NULL) {
@@ -344,8 +341,8 @@ static int parse_update(xmlNodePtr rootNode, struct request *request) {
         xmlNodePtr right = getChildByName(condition, "rightOp");
         xmlNodePtr op = getChildByName(condition, "operator");
 
-        struct Operand *leftOp = parse_operand(left);
-        struct Operand *rightOp = parse_operand(right);
+        struct Operand *leftOp = parseOperand(left);
+        struct Operand *rightOp = parseOperand(right);
         enum Operator anOperator = parseOperator(op);
         request->updateRequest.conditions[i] = (struct Condition) {
                 .left = *leftOp,
@@ -406,7 +403,7 @@ static int parse_update(xmlNodePtr rootNode, struct request *request) {
     return 0;
 }
 
-static int parse_join(xmlNodePtr rootNode, struct request *request) {
+static int parseJoin(xmlNodePtr rootNode, struct request *request) {
     request->type = JOIN;
     xmlNodePtr join = getChildByName(rootNode, "join");
     xmlNodePtr aliases = getChildByName(join, "aliases");
@@ -535,19 +532,19 @@ int parseXml(xmlDocPtr xmlDocument, struct request *request) {
         return PARSE_ERROR;
     }
     if (xmlStrcmp(type->children->content, (const xmlChar *) "CREATE_TABLE") == 0) {
-        parse_create_table(rootNode, request);
+        parseCreateTable(rootNode, request);
     } else if (xmlStrcmp(type->children->content, (const xmlChar *) "DROP_TABLE") == 0) {
-        parse_delete_table(rootNode, request);
+        parseDeleteTable(rootNode, request);
     } else if (xmlStrcmp(type->children->content, (const xmlChar *) "INSERT") == 0) {
-        parse_insert(rootNode, request);
+        parseInsert(rootNode, request);
     } else if (xmlStrcmp(type->children->content, (const xmlChar *) "SELECT") == 0) {
-        parse_select(rootNode, request);
+        parseSelect(rootNode, request);
     } else if (xmlStrcmp(type->children->content, (const xmlChar *) "DELETE") == 0) {
-        parse_delete(rootNode, request);
+        parseDelete(rootNode, request);
     } else if (xmlStrcmp(type->children->content, (const xmlChar *) "UPDATE") == 0) {
-        parse_update(rootNode, request);
+        parseUpdate(rootNode, request);
     } else if (xmlStrcmp(type->children->content, (const xmlChar *) "JOIN") == 0) {
-        parse_join(rootNode, request);
+        parseJoin(rootNode, request);
     } else {
         return PARSE_ERROR;
     }

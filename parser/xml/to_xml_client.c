@@ -458,7 +458,7 @@ static int parseDeleteTable(xmlNodePtr node, struct AstNode *astNode, struct Var
     return 0;
 }
 
-int from_ast(struct AstNode *root, xmlDocPtr docPtr, char **buf) {
+int fromAst(struct AstNode *root, xmlDocPtr docPtr, char **buf) {
     variableCount = 0;
     forCount = 0;
     enum AstNodeType requestType = getRequestType(root);

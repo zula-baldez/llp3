@@ -147,7 +147,7 @@ int main(int argc, char **argv) {
     char **buf = malloc(sizeof(char *) * 1024);
     char *buffer = malloc(MAX_BUFFER_SIZE);
     xmlDocPtr docPtr = xmlNewDoc(BAD_CAST "1.0");
-    from_ast(root, docPtr, buf);
+    fromAst(root, docPtr, buf);
     printf("%s\n", *buf);
     int hasNext = 1;
     while (hasNext && err == 0) {

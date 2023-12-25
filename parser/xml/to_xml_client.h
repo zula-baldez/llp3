@@ -9,7 +9,7 @@
 #include <libxml/xmlschemas.h>
 #include "../ast/ast_node.h"
 
-int from_ast(struct AstNode *root, xmlDocPtr docPtr, char** buf);
+int fromAst(struct AstNode *root, xmlDocPtr docPtr, char** buf);
 
 int next(xmlDocPtr docPtr, char **buf);
 #endif //LAB3_FROM_AST_H

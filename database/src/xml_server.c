@@ -4,7 +4,7 @@
 #include "../include/xml/to_xml_server.h"
 #include <pthread.h>
 
-static void *handle_client(void *socket_desc) {
+static void *handleClient(void *socket_desc) {
     int clientSocket = *(int *) socket_desc;
     free(socket_desc);
     struct TableHeader* selectTableHeader;
@@ -199,7 +199,7 @@ int main(int argc, char **argv) {
         int *clientSocketPtr = malloc(sizeof(int));
         *clientSocketPtr = clientSocket;
         pthread_t tid;
-        if (pthread_create(&tid, NULL, handle_client, (void *) clientSocketPtr) != 0) {
+        if (pthread_create(&tid, NULL, handleClient, (void *) clientSocketPtr) != 0) {
             perror("Thread creation failed");
             exit(EXIT_FAILURE);
         }
