@@ -1,4 +1,4 @@
-#include "../include/client_socket_operations.h"
+#include "client_socket_operations.h"
 
 int initializeClientSocket() {
     int clientSocket = socket(AF_INET, SOCK_STREAM, 0);

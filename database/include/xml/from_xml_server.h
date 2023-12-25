@@ -1,7 +1,7 @@
 #ifndef LAB3_FROM_XML_SERVER_H
 #define LAB3_FROM_XML_SERVER_H
 
-#include "../../database/include/file-work/public/table.h"
+#include "../file-work/public/table.h"
 #include "string.h"
 #include <libxml/xmlwriter.h>
 #include <libxml/tree.h>
@@ -43,8 +43,6 @@ struct selectRequest {
     char *tableName;
     int32_t conditionCount;
     struct Condition *conditions;
-    char* unreadData;
-    char* blockHeader;
 };
 
 

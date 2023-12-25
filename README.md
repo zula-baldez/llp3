@@ -1,7 +1,11 @@
 # llp
-llp lab1
+llp lab3
 
-test are running in main func
+linux:
+
+cmake . -B build-dir
+
+cmake --build build-dir --target all
 
 to build windows:
 
@@ -13,8 +17,4 @@ SET CMAKE_NINJA_PATH="C:/Program Files/JetBrains/CLion 2022.1/bin/ninja/win/ninj
 
 %CMAKE_PATH% --build build-dir --target all
 
-linux:
 
-cmake . -B build-dir
-
-cmake --build build-dir --target all

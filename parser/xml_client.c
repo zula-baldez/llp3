@@ -1,9 +1,9 @@
-#include "./net/include/client_socket_operations.h"
-#include "./parser/xml/to_xml_client.h"
-#include "./parser/xml/from_xml_client.h"
+#include "net/client_socket_operations.h"
+#include "xml/to_xml_client.h"
+#include "xml/from_xml_client.h"
 #include <stdio.h>
 
-#include "parser/ast/ast.h"
+#include "ast/ast.h"
 
 #define YY_STDINIT
 #define YYSTYPE double

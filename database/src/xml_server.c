@@ -1,7 +1,7 @@
-#include "./database/include/aggregator/public/database.h"
-#include "parser/xml/from_xml_server.h"
-#include "net/include/server_socket_operations.h"
-#include "parser/xml/to_xml_server.h"
+#include "../include/aggregator/public/database.h"
+#include "../include/xml/from_xml_server.h"
+#include "../include/net/public/server_socket_operations.h"
+#include "../include/xml/to_xml_server.h"
 #include <pthread.h>
 
 static void *handle_client(void *socket_desc) {
@@ -159,6 +159,7 @@ static void *handle_client(void *socket_desc) {
         if (err != 0) {
             printf("Unable to send data");
         }
+        freeRequest(&request);
         free(xmlBuffer);
         free(buffer);
     }

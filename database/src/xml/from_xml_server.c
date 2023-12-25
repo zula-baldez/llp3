@@ -1,4 +1,4 @@
-#include "from_xml_server.h"
+#include "../../include/xml/from_xml_server.h"
 
 
 void freeRequest(struct request *request) {
@@ -7,9 +7,6 @@ void freeRequest(struct request *request) {
         free(request->createTableRequest.names);
     }
     if (request->type == INSERT) {
-        for (int i = 0; i < request->insertRequest.dataCount; i++) {
-            free(request->insertRequest.data[i]);
-        }
         free(request->insertRequest.data);
     }
     if (request->type == SELECT)
@@ -253,10 +250,6 @@ static int parse_select(xmlNodePtr rootNode, struct request *request) {
     xmlNodePtr unreadData = getChildByName(rootNode, "unreadData");
     xmlNodePtr blockPtr = getChildByName(rootNode, "blockPtr");
 
-    if(unreadData != NULL) {
-        request->selectRequest.unreadData = (char *) strtoull((char *) unreadData->children->content, NULL, 16);
-        request->selectRequest.blockHeader = (char *) strtoull((char *) blockPtr->children->content, NULL, 16);
-    }
 
     xmlNodePtr tableName = getChildByName(rootNode, "tableName");
     if (tableName == NULL) {
