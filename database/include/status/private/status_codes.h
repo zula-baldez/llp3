@@ -1,0 +1,26 @@
+//
+// Created by moyak on 01.10.2023.
+//
+
+#ifndef LLP_STATUS_CODES_H
+#define LLP_STATUS_CODES_H
+#define SUCCESS 0
+#define INVALID_FILE_HEADER_WIN 1
+#define FILE_MAPPING_ERROR 2
+#define SET_FILE_POINTER_ERROR 3
+#define SET_END_OF_FILE_ERROR 4
+#define INVALID_FILE_DESCRIPTOR 5
+#define ERROR_EXPAND_FILE 6
+#define NPE 7
+#define TOO_BIG_FILE 8
+#define ALLIGNMENT_ERROR 9
+#define MAP_ERROR_LIN 10
+#define TOO_BIG_OFFSET 11
+#define NO_ROW_PAGE 12
+#define NO_SUCH_TABLE 13
+#define ALL_DATA_READ 14
+#define NO_SUCH_OPERAND_NAME 15
+#define TYPES_NOT_COMPARABLE 16
+
+#define checkForErr(Y) if(Y != SUCCESS) {return Y;}
+#endif //LLP_STATUS_CODES_H
